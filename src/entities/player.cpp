@@ -10,44 +10,39 @@ void Player::initInputs()
 
 void Player::reposition()
 {
-    if ((_body[0].getPosition().x + (_body[0].getSize().x / 2)) <= 0.f) _body[0].setPosition(sf::Vector2f(800.f, _body[0].getPosition().y));
-    else if ((_body[0].getPosition().x - (_body[0].getSize().x / 2)) >= 800.f) _body[0].setPosition(sf::Vector2f(0.f, _body[0].getPosition().y));
-    else if ((_body[0].getPosition().y + (_body[0].getSize().y / 2)) <= 0.f) _body[0].setPosition(sf::Vector2f(_body[0].getPosition().x, 600.f));
-    else if ((_body[0].getPosition().y - (_body[0].getSize().y / 2)) >= 600.f) _body[0].setPosition(sf::Vector2f(_body[0].getPosition().x, 0.f));
+    for (auto &&body : _body)
+    {
+        if ((body.getPosition().x + (body.getScale().x / 2)) <= 0.f) body.setPosition(sf::Vector2f(800.f, body.getPosition().y));
+        else if ((body.getPosition().x - (body.getScale().x / 2)) >= 800.f) body.setPosition(sf::Vector2f(0.f, body.getPosition().y));
+        else if ((body.getPosition().y + (body.getScale().y / 2)) <= 0.f) body.setPosition(sf::Vector2f(body.getPosition().x, 600.f));
+        else if ((body.getPosition().y - (body.getScale().y / 2)) >= 600.f) body.setPosition(sf::Vector2f(body.getPosition().x, 0.f));
+    }
 }
 
 void Player::moveBody(float& dt)
 {
-    sf::Vector2f direction;
-    sf::Vector2f position;
+    _moveTime += dt;
+    if (_moveTime < .1f) return;
 
-    for (size_t i = 1; i < _body.size(); i++)
+    for (size_t i = _body.size() - 1; i > 0; --i)
     {
-        if (direction.x != _direction.x) 
-        {
-            position = sf::Vector2f((_body[i - 1].getPosition().x - _body[i - 1].getSize().x) * _direction.x, 0.f);
-            direction.x = _direction.x;
-        } 
-        else if (direction.y != _direction.y)
-        {
-            position = sf::Vector2f(0.f, (_body[i - 1].getPosition().y - _body[i - 1].getSize().y) * _direction.y);
-            direction.y = _direction.y;
-        }
-
-        _body[i].move(position * dt);
+        sf::Vector2f position = _body[i - 1].getPosition();
+        sf::Vector2f size = _body[i - 1].getScale();
+        _body[i].setPosition(position.x - (size.x * _direction.x), position.y - (size.y * _direction.y));
+        _moveTime = 0.f;
     }
 }
 
 Player::Player()
 {
-    sf::RectangleShape head = sf::RectangleShape(sf::Vector2f(30.f, 30.f));
-    head.setOrigin(sf::Vector2f(15.f, 15.f));
+    sf::CircleShape head = sf::CircleShape(15.f);
+    head.setOrigin(sf::Vector2f(7.5f, 7.5f));
     head.setPosition(sf::Vector2f(400.f, 300.f));
     head.setFillColor(sf::Color::Green);
 
-    _moveSpeed = 100.f;
-    _direction = sf::Vector2f();
+    _moveSpeed = 150.f;
     _body.push_back(head);
+    addBody();
 }
 
 Player::~Player()
@@ -69,14 +64,18 @@ void Player::fixedUpdate(float& dt)
 
 void Player::render(sf::RenderWindow* window)
 {
-    for (sf::RectangleShape body : _body) window->draw(body);
+    for (auto &&body : _body) window->draw(body);
 }
 
 void Player::addBody()
 {
-    sf::RectangleShape body = sf::RectangleShape(sf::Vector2f(30.f, 30.f));
-    body.setOrigin(sf::Vector2f(15.f, 15.f));
-    body.setPosition(_body[_body.size() - 1].getPosition());
+    sf::CircleShape body = sf::CircleShape(15.f);
+    body.setOrigin(sf::Vector2f(7.5f, 7.5f));
+
+    sf::Vector2f position = _body[_body.size() - 1].getPosition();
+    sf::Vector2f size = _body[_body.size() - 1].getScale();
+
+    body.setPosition(position.x - (size.x * _direction.x), position.y - (size.y * _direction.y));
     body.setFillColor(sf::Color::Green);
     _body.push_back(body);
 }

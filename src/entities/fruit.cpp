@@ -2,8 +2,8 @@
 
 Fruit::Fruit(sf::Vector2f position) 
 {
-    _sprite = sf::RectangleShape(sf::Vector2f(30.f, 30.f));
-    _sprite.setOrigin(sf::Vector2f(15.f, 15.f));
+    _sprite = sf::CircleShape(15.f);
+    _sprite.setOrigin(sf::Vector2f(7.5f, 7.5f));
     _sprite.setFillColor(sf::Color::Red);
     _sprite.setPosition(position);
 }

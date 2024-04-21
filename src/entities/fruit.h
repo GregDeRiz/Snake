@@ -7,7 +7,7 @@
 class Fruit
 {
 private:
-    sf::RectangleShape _sprite;
+    sf::CircleShape _sprite;
 
 public:
     Fruit(sf::Vector2f position);
@@ -15,5 +15,5 @@ public:
     void render(sf::RenderWindow* window);
 
     bool wasEated(Player& player) { return _sprite.getGlobalBounds().intersects(player.getSprite().getGlobalBounds()); }
-    sf::RectangleShape getSprite() { return _sprite; }
+    sf::CircleShape getSprite() { return _sprite; }
 };

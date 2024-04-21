@@ -2,8 +2,8 @@
 
 int main()
 {
-    sf::Clock clock = sf::Clock();
-    Game game = Game();
+    sf::Clock clock;
+    Game game;
 
     while (game.isGameOpen())
     {

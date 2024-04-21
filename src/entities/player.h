@@ -9,7 +9,8 @@ private:
     sf::Vector2f _direction;
     float _moveSpeed;
 
-    std::vector<sf::RectangleShape> _body;
+    std::vector<sf::CircleShape> _body;
+    float _moveTime;
 
     void initInputs();
     void reposition();
@@ -26,5 +27,5 @@ public:
 
     void addBody();
 
-    sf::RectangleShape getSprite() { return _body[0]; }
+    sf::CircleShape getSprite() { return _body[0]; }
 };

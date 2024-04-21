@@ -19,7 +19,7 @@ void Game::spawnFruit()
         if (_fruits[i].wasEated(_player)) 
         {
             _fruits.erase(_fruits.begin() + i);
-            _fruits.push_back(Fruit(sf::Vector2f(rand() % 700, rand() % 500)));
+            _fruits.push_back(Fruit(sf::Vector2f(rand() % 600, rand() % 400)));
             _player.addBody();
         }
     }

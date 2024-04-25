@@ -5,6 +5,7 @@
 
 #include "entities/player.h"
 #include "entities/fruit.h"
+#include "inputs/direction.h"
 
 class Game
 {
@@ -14,9 +15,11 @@ private:
     
     Player _player;
     std::vector<Fruit> _fruits;
+    Direction _direction;
 
     void registerEvents();
     void spawnFruit();
+    void registerInput();
 
 public:
     Game();

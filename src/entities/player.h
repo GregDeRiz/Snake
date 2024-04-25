@@ -3,6 +3,8 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 
+#include "../inputs/direction.h"
+
 class Player
 {
 private:
@@ -10,12 +12,8 @@ private:
     float _moveSpeed;
 
     std::vector<sf::CircleShape> _body;
-    float _moveTime;
 
-    void initInputs();
-    void reposition();
-    
-    void moveBody(float& dt);
+    void moveBody();
 
 public:
     Player();
@@ -25,6 +23,7 @@ public:
     void fixedUpdate(float& dt);
     void render(sf::RenderWindow* window);
 
+    void updateInput(Direction direction);
     void addBody();
 
     sf::CircleShape getSprite() { return _body[0]; }

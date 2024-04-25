@@ -25,6 +25,14 @@ void Game::spawnFruit()
     }
 }
 
+void Game::registerInput() 
+{
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) _direction = RIGHT;
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) _direction = LEFT;
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) _direction = DOWN;
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) _direction = UP;
+}
+
 Game::Game()
 {
     _window = new sf::RenderWindow(sf::VideoMode(800, 600), "Snake");
@@ -32,6 +40,7 @@ Game::Game()
 
     _player = Player();
     _fruits.push_back(Fruit(sf::Vector2f(rand() % 700, rand() % 500)));
+    _direction = NONE;
 }
 
 Game::~Game()
@@ -43,6 +52,9 @@ Game::~Game()
 void Game::update()
 {
     registerEvents();
+    registerInput();
+
+    _player.updateInput(_direction);
     _player.update();
     spawnFruit();
 }
